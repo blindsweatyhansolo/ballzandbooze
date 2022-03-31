@@ -1,12 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="./assets/css/style.css" />
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--bulma link below-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css" integrity="sha512-IgmDkwzs96t4SrChW29No3NXBIBv8baW490zk5aXvhCD8vuZM3yUSkbyTBcXohkySecyzIrUwiF/qV0cuPcL3Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!--favicon link below-->
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/favicon_io (2)/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon_io (2)/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon_io (2)/favicon-16x16.png">
+    <link rel="manifest" href="./assets/favicon_io (2)/site.webmanifest">
     <title>Ballz And Booze</title>
 </head>
+
+<!-- in case you were wondering for consistency purposes, 
+I think 'is-family-sans-serif is what matches font automatically applied to header'-->
+<header class="hero is-white is-small">
+    <section class="hero-body">
+        <h1 class="content is-size-2 has-text-centered has-text-weight-semibold my-0">Ballz&Booze</h1>
+        <p class="content is-small has-text-centered mb-0">If we want to insert a couple words here, otherwise delete.</p>
+    </section>
+    <div class="hero">
+        <div class="hero-body">
+            <img class="image" src="./assets/court.jpeg" alt="Anthony's favorite team" />
+        </div>
+    </div>
+</header>
+
+<div class="columns has-text-centered mt-5 is-mobile">
+    <div class="column is-three-fifths has-text-black">Date Picker</div>
+    <div class="column auto has-text-black">Bar Search</div>
+</div>
+
+<div class="columns mt-5 mx-2 has-text-centered is-mobile">
+    <div class="column is-three-fifths ml-2 has-background-grey-light">
+        <p class="has-text-black is-inline">HOME</p>
+        <p class="has-text-black is-inline">VISITORS</p>
+        <p class="has-text-black is-inline">STATUS</p>
+        <div class="box" id="schedule-container">
+        <div class="columns">
+                <div class="column">TEAM</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="column auto">
+        <p class="has-background-grey-light has-text-black">WHERE TO WATCH</p>
+        <div class="box" id="bar-container">
+        <div class="columns">
+            <div class="bars column">Bars, add corresponding JS id's to this div</div>
+        </div>
+        </div>
+    </div>
+    
+    
+</div>
+
 <body>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="./assets/js/script.js"></script>
 </body>

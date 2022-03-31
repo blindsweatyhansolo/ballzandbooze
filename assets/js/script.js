@@ -2,6 +2,12 @@
 // date using moment.js
 var inputDate = moment().format("YYYY-MM-DD");
 console.log(inputDate);
+var scheduleContainer = $("#schedule-container");
+
+var test = $("<p>");
+test.text("boop");
+scheduleContainer.append(test);
+
 
 // nba api api header variables
 var myHeaders = new Headers();
