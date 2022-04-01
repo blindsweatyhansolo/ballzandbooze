@@ -53,18 +53,18 @@ var getSchedules = function() {
             
             // console.log(data);
 
-            var gameCard = $("<div class='columns card is-flex is-justify-content-space-around'>");
+            var gameCard = $("<div class='columns card is-flex is-justify-content-space-around is-v-centered'>");
             scheduleContent.append(gameCard);
 
             var homeCard = $("<div class='card-image mx-3'>");
             var versusText = $("<div class='mx-3'>");
             var awayCard = $("<div class='card-image mx-3'>");
-            var gameStatusCard = $("<div class='card'>");
+            var gameStatusCard = $("<div class='card is-shadowless'>");
 
 
-            var homeTeamName = $("<p class='has-text-weight-bold'>");
+            var homeTeamName = $("<p class='has-text-weight-bold mx-2'>");
             homeTeamName.text(homeTeam);
-            var homeTeamLogoImg = $("<img class='image is-64x64'>");
+            var homeTeamLogoImg = $("<img class='image is-48x48 is-inline-block mt-2'>");
             homeTeamLogoImg.attr("src", "" + homeTeamLogo + "");
 
             homeCard.append(homeTeamLogoImg);
@@ -72,13 +72,13 @@ var getSchedules = function() {
 
             gameCard.append(homeCard);
 
-            versusText = $("<p class='has-text-weight-bold'>");
+            versusText = $("<p class='has-text-weight-bold mt-4 pt-4 my-4'>");
             versusText.text("VS");
             gameCard.append(versusText);
 
-            var awayTeamName = $("<p class='has-text-weight-bold'>");
+            var awayTeamName = $("<p class='has-text-weight-bold mx-2'>");
             awayTeamName.text(awayTeam);
-            var awayTeamLogoImg = $("<img class='image is-64x64'>");
+            var awayTeamLogoImg = $("<img class='image is-48x48 is-inline-block mt-2'>");
             awayTeamLogoImg.attr("src", "" + awayTeamLogo + "");
 
             awayCard.append(awayTeamLogoImg);
@@ -86,7 +86,7 @@ var getSchedules = function() {
 
             gameCard.append(awayCard);
 
-            var gameStatusText = $("<p class='has-text-weight-bold'>");
+            var gameStatusText = $("<p class='has-text-weight-bold mt-4 pt-4 mr-2'>");
             gameStatusText.text(gameStatus);
 
             gameStatusCard.append(gameStatusText)
