@@ -93,7 +93,7 @@ var getSchedules = function() {
 
             gameCard.append(gameStatusCard);
         } 
-    }).catch(error => console.log('error', error));;
+    }).catch(error => console.log('error', error));
 
 }
 
@@ -147,12 +147,13 @@ var getBars = function(city){
         
                     var footerWebsite = $("<p class='card-footer-item'>");
                     var footerWebsiteSpan = $("<span>");
-                    footerWebsiteSpan.text("View bar " + barWebsite);
+                    footerWebsiteSpan.text("View ");
+                    footerWebsiteSpan.append(barWebsite);
                     footerWebsite.append(footerWebsiteSpan);
         
                     var footerFavorite = $("<p class='card-footer-item'>");
                     var footerFavoriteSpan = $("<span>");
-                    footerFavorite.text("Save to favorites");
+                    footerFavorite.text("Favorite");
                     footerFavorite.append(footerFavoriteSpan);
         
                     barCardFooter.append(footerWebsite);
@@ -170,7 +171,8 @@ var getBars = function(city){
             }
         }
         // console.log(data);
-    })
+    }).catch(error => console.log("error", error));
+
 }
 
 var formHandler = function(event) {
