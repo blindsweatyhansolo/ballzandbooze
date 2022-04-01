@@ -31,7 +31,14 @@ I think 'is-family-sans-serif is what matches font automatically applied to head
 
 <div class="columns has-text-centered mt-5 is-mobile">
     <div class="column is-three-fifths has-text-black">Date Picker</div>
-    <div class="column auto has-text-black">Bar Search</div>
+    <div class="column auto has-text-black">
+        <form id="city-search">
+            <label for="city-search">Search by City:</label>
+            <input type="text" id="city-input" placeholder="e.g. Atlanta" />
+            <button id="search-button">Search for Brew Near You!</button>
+        </form>
+        Bar Search
+    </div>
 </div>
 
 <div class="columns mt-5 mx-2 has-text-centered is-mobile">
@@ -59,7 +66,7 @@ I think 'is-family-sans-serif is what matches font automatically applied to head
         <p class="has-background-grey-light has-text-black">WHERE TO WATCH</p>
         <div class="box" id="bar-container">
             <div class="columns">
-                <div class="bars column">Bars, add corresponding JS id's to this div</div>
+                <!-- <div class="bars column">Bars, add corresponding JS id's to this div</div> -->
             </div>
         </div>
     </div>

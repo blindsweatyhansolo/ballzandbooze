@@ -4,7 +4,11 @@ var inputDate = moment().format("YYYY-MM-DD");
 console.log(inputDate);
 var scheduleContainer = $("#schedule-container");
 var scheduleContent = $("#schedule-content");
+var barContainer = $("#bar-container");
 var gameDate = $("#game-date");
+var citySearch = $("#city-search");
+var cityInput = $("#city-input");
+var searchBtn = $("#search-button");
 
 var getSchedules = function() {
     // nba api api header variables
@@ -93,22 +97,99 @@ var getSchedules = function() {
 
 }
 
-var getBars = function(){
+var getBars = function(city){
     // brewery api start
-    // var breweryApiUrl = "https://api.openbrewerydb.org/breweries?by_city=san_diego";
-    // var breweryApiUrl = "https://api.openbrewerydb.org/breweries?by_postal=21144&by_type=micro";
-    var breweryApiUrl = "https://api.openbrewerydb.org/breweries?by_city=springfield";
+    var cityName = city;
+
+    // format api url using city name and display max 10 items
+    var breweryApiUrl = "https://api.openbrewerydb.org/breweries?by_city=" + cityName + "&per_page=10";
     
     fetch(breweryApiUrl).then(function (response) {
         return response.json();
     }).then(function (data) {
-        console.log(data);
-        for (var i = 0; i < data.response.length; i++) {
-            console.log(data.response[i].city);
+        // if no bars are found for specified city, else render bars
+        if (data.length === 0) {
+            // !!make this a modal message!!
+            console.log("No bars found. Please try widening your search!");
+        } else {
+            // console.log(data[0].city);
+            for (var i = 0; i < data.length; i++) {
+                console.log(data[i].brewery_type);
+                var breweryType = data[i].brewery_type;
+
+                // conditional to exclude non-visitable bars
+                if (breweryType === "planning" || breweryType === "nano" || breweryType === "contract" || breweryType === "large") {
+                    console.log("breweries hidden");
+                    // else - populate list from remaining array data
+                } else {
+
+                    var breweryName = data[i].name;
+                    var barStreetAddress = data[i].street;
+                    var barCity = data[i].city;
+                    var barUrl = data[i].website_url;
+        
+                    var barInfoContainer = $("<div class='is-flex is-flex-direction-row'>");
+        
+                    var barCard = $("<div class='card mb-1 px-1'>");
+                    var barCardContent = $("<div class='card-content'>");
+                    var barCardFooter = $("<footer class='card-footer'>");
+        
+                    var barName = $("<h3 class='has-text-weight-semibold has-text-left'>");
+                    barName.text(breweryName);
+        
+                    var barAddress = $("<address class='has-text-left'>");
+                    barAddress.append(barStreetAddress + ", ");
+                    barAddress.append(barCity);
+        
+                    var barWebsite = $("<a>");
+                    barWebsite.attr("href", barUrl);
+                    barWebsite.text("website");
+        
+                    var footerWebsite = $("<p class='card-footer-item'>");
+                    var footerWebsiteSpan = $("<span>");
+                    footerWebsiteSpan.text("View bar " + barWebsite);
+                    footerWebsite.append(footerWebsiteSpan);
+        
+                    var footerFavorite = $("<p class='card-footer-item'>");
+                    var footerFavoriteSpan = $("<span>");
+                    footerFavorite.text("Save to favorites");
+                    footerFavorite.append(footerFavoriteSpan);
+        
+                    barCardFooter.append(footerWebsite);
+                    barCardFooter.append(footerFavorite);
+        
+                    barCardContent.append(barName);
+                    barCardContent.append(barAddress);
+                    barCardContent.append(barCardFooter);
+        
+                    barCard.append(barCardContent);
+                    barCard.append(barCardFooter);
+                    barInfoContainer.append(barCard);
+                    barContainer.append(barInfoContainer);
+                }
+            }
         }
+        // console.log(data);
     })
 }
 
+var formHandler = function(event) {
+    event.preventDefault();
 
-getSchedules();
-getBars();
+    // clear old unsaved content from container
+    barContainer.html("");
+
+    // grab value from input
+    var city = cityInput.val().trim();
+    // console.log(city);
+
+    // send city as parameter to getBars
+    getBars(city);
+};
+
+// event handler for city search input
+citySearch.on("submit", formHandler);
+searchBtn.on("click", formHandler);
+
+// getSchedules();
+// getBars();
