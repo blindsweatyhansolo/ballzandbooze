@@ -29,15 +29,22 @@ I think 'is-family-sans-serif is what matches font automatically applied to head
     </div>
 </header>
 
-<div class="columns has-text-centered mt-5 is-mobile">
-    <div class="column is-three-fifths has-text-black">Date Picker</div>
+<div class="columns has-text-centered mx-0 my-0 is-mobile">
+    <div class="column is-three-fifths has-text-black">Find a Game: 
+        <div class="column">
+        <input type="date" id="date-picker"/>
+    </div>
+    </div>
     <div class="column auto has-text-black">
         <form id="city-search">
             <label for="city-search">Search by City:</label>
+            <div class="column">
             <input type="text" id="city-input" placeholder="e.g. Atlanta" />
+            </div>
+            <div class="column">
             <button id="search-button">Search for Brew Near You!</button>
+            </div>
         </form>
-        Bar Search
     </div>
 </div>
 
