@@ -6,7 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--bulma link below-->
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css" integrity="sha512-IgmDkwzs96t4SrChW29No3NXBIBv8baW490zk5aXvhCD8vuZM3yUSkbyTBcXohkySecyzIrUwiF/qV0cuPcL3Q==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="~bulma-calendar/dist/css/bulma-calendar.min.css" rel="stylesheet" />
     <!--favicon link below-->
     <link rel="apple-touch-icon" sizes="180x180" href="./assets/favicon_io (2)/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon_io (2)/favicon-32x32.png">
@@ -19,8 +21,8 @@
 I think 'is-family-sans-serif is what matches font automatically applied to header'-->
 <header class="hero is-white is-small">
     <section class="hero-body">
-        <h1 class="content is-size-2 has-text-centered has-text-weight-semibold my-0">Ballz&Booze</h1>
-        <p class="content is-small has-text-centered mb-0">If we want to insert a couple words here, otherwise delete.</p>
+        <h1 class="content is-size-2 has-text-centered has-text-weight-semibold my-0">🏀 Ballz&Booze 🍺</h1>
+        <p class="content is-small has-text-centered mb-0">A simple app to find what NBA games are playing, and a bar to watch them!</p>
     </section>
     <div class="hero">
         <div class="hero-body">
@@ -30,20 +32,25 @@ I think 'is-family-sans-serif is what matches font automatically applied to head
 </header>
 
 <div class="columns has-text-centered mx-0 my-0 is-mobile">
-    <div class="column is-three-fifths has-text-black">Find a Game: 
+    <div class="column is-three-fifths has-text-black">
+        <label for="game-search">Find a Game:</label>
         <div class="column">
-        <input type="date" id="date-picker"/>
-    </div>
+            <input type="date" id="date-picker"/>
+        </div>
+        <div class="column">
+            <button id="game-search-btn">Find scheduled games!</button>
+            <button id="today-game">See Today's Line-up!</button>
+        </div>
     </div>
     <div class="column auto has-text-black">
         <form id="city-search">
             <label for="city-search">Search by City:</label>
-            <div class="column">
-            <input type="text" id="city-input" placeholder="e.g. Atlanta" />
-            </div>
-            <div class="column">
-            <button id="search-button">Search for Brew Near You!</button>
-            </div>
+                <div class="column">
+                    <input type="text" id="city-input" placeholder="e.g. Atlanta" />
+                </div>
+                <div class="column">
+                    <button id="search-button">Search for Brew Near You!</button>
+                </div>
         </form>
     </div>
 </div>
@@ -82,6 +89,7 @@ I think 'is-family-sans-serif is what matches font automatically applied to head
 
 <body>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="~bulma-calendar/dist/js/bulma-calendar.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="./assets/js/script.js"></script>
 </body>

@@ -1,7 +1,7 @@
 // var apyKey = "d94a3deae8mshddff40e63fbd519p190b9cjsna5832c849eab"; 
 // date using moment.js
-var inputDate = moment().format("YYYY-MM-DD");
-console.log(inputDate);
+var currentDate = moment().format("YYYY-MM-DD");
+// console.log(inputDate);
 var scheduleContainer = $("#schedule-container");
 var scheduleContent = $("#schedule-content");
 var barContainer = $("#bar-container");
@@ -9,8 +9,14 @@ var gameDate = $("#game-date");
 var citySearch = $("#city-search");
 var cityInput = $("#city-input");
 var searchBtn = $("#search-button");
+var gameSearchBtn = $("#game-search-btn");
+var datePicker = $("#date-picker");
+var todayGameBtn = $("#today-game");
 
-var getSchedules = function() {
+var getSchedules = function(inputDate) {
+    var inputDate = JSON.parse(inputDate);
+    console.log(inputDate);
+
     // nba api api header variables
     var myHeaders = new Headers();
     myHeaders.append("x-rapidapi-key", "d94a3deae8mshddff40e63fbd519p190b9cjsna5832c849eab");
@@ -29,6 +35,7 @@ var getSchedules = function() {
     fetch(apiUrl, requestOptions).then(function (response) {
         return response.json();
     }).then(function (data) {
+        console.log(data);
         for (var i = 0; i < data.response.length; i++) {
             
             
@@ -110,7 +117,7 @@ var getBars = function(city){
         // if no bars are found for specified city, else render bars
         if (data.length === 0) {
             // !!make this a modal message!!
-            console.log("No bars found. Please try widening your search!");
+            alert("No bars found. Please try widening your search!");
         } else {
             // console.log(data[0].city);
             for (var i = 0; i < data.length; i++) {
@@ -189,9 +196,31 @@ var formHandler = function(event) {
     getBars(city);
 };
 
+var gameFormHandler = function(event) {
+    // event.preventDefault();
+
+    scheduleContent.html("");
+
+    var inputDate = JSON.stringify(datePicker.val());
+
+    console.log(inputDate);
+    getSchedules(inputDate);
+
+}
+
 // event handler for city search input
 citySearch.on("submit", formHandler);
 searchBtn.on("click", formHandler);
+gameSearchBtn.on("click", gameFormHandler);
+todayGameBtn.on("click", function(){
+    var inputDate = JSON.stringify(currentDate);
+
+    scheduleContent.html("");
+
+    getSchedules(inputDate);
+
+})
+
 
 // getSchedules();
 // getBars();
