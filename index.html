@@ -17,6 +17,7 @@
     <title>Ballz And Booze</title>
 </head>
 
+<body>
 <!-- in case you were wondering for consistency purposes, 
 I think 'is-family-sans-serif is what matches font automatically applied to header'-->
 <header class="hero is-white is-small">
@@ -39,6 +40,7 @@ I think 'is-family-sans-serif is what matches font automatically applied to head
         </div>
         <div class="column">
             <button id="game-search-btn">Find scheduled games!</button>
+            <!-- this button will send the current date to the schedule rendering function -->
             <button id="today-game">See Today's Line-up!</button>
         </div>
     </div>
@@ -87,7 +89,18 @@ I think 'is-family-sans-serif is what matches font automatically applied to head
 
 </div>
 
-<body>
+<!-- MODALS -->
+<div id="modal-game-error" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+      <div class="box">
+        <p>NO GAMES FOUND</p>
+        <!-- Your content -->
+      </div>
+    </div>
+    <button class="modal-close is-large" aria-label="close"></button>
+</div>
+
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="~bulma-calendar/dist/js/bulma-calendar.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
