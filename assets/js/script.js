@@ -1,8 +1,5 @@
-// var apyKey = "d94a3deae8mshddff40e63fbd519p190b9cjsna5832c849eab"; 
-
-// date using moment.js
+// current date using moment.js
 var currentDate = moment().format("YYYY-MM-DD");
-// console.log(inputDate);
 var scheduleContainer = $("#schedule-container");
 var scheduleContent = $("#schedule-content");
 var barContainer = $("#bar-container");
@@ -13,12 +10,16 @@ var searchBtn = $("#search-button");
 var gameSearchBtn = $("#game-search-btn");
 var datePicker = $("#date-picker");
 var todayGameBtn = $("#today-game");
+// modal variables
+var gameModal = $("#modal-game-error");
+var barModal = $("#modal-bar-error");
+var closeModalBtn = $(".close");
 
 // function to render game schedules from inputed date
 var getSchedules = function(inputDate) {
     // parse the stringified date, did this since I was having errors when trying to read implemented inputDate value
     var inputDate = JSON.parse(inputDate);
-    console.log(inputDate);
+    // console.log(inputDate);
 
     // nba api api header variables
     var myHeaders = new Headers();
@@ -33,42 +34,34 @@ var getSchedules = function(inputDate) {
 
     var apiUrl = "https://api-nba-v1.p.rapidapi.com/games?date=" + inputDate;
 
-    //   https://api-nba-v1.p.rapidapi.com/games?date=2022-03-29
-
     fetch(apiUrl, requestOptions).then(function (response) {
         return response.json();
     }).then(function (data) {
         console.log(data);
         // if results = 0, there are no games for selected date
         if (data.results === 0) {
-            console.log("NO GAMES");
+            // console.log("NO GAMES");
             // make this a modal message!!
-            alert("No Games Scheduled on " + inputDate);
+            // alert("No Games Scheduled on " + inputDate);
+            gameModal.addClass("is-clipped is-active");
         } else {
             // else render game card for each in array
             for (var i = 0; i < data.response.length; i++) {
-                
-                
+                // home team
                 var homeTeam = data.response[i].teams.home.name;
                 var homeTeamLogo = data.response[i].teams.home.logo;
                 
-                // console.log(homeTeam);
-                // console.log(homeTeamLogo);
-                
+                // away team
                 var awayTeam = data.response[i].teams.visitors.name;
                 var awayTeamLogo = data.response[i].teams.visitors.logo;
-                // console.log(awayTeam);
-                // console.log(awayTeamLogo);
-    
                 
+                // game status
                 var gameStatus = data.response[i].status.long;
                 // console.log(gameStatus);
                 
-                // pass city name as parameter for brewery call
+                // pass city name as parameter for brewery call? [keep in, but may not work]
                 var gameCity = data.response[i].arena.city;
                 // console.log(gameCity);
-                
-                // console.log(data);
     
                 var gameCard = $("<div class='columns card is-flex is-justify-content-space-around is-v-centered'>");
                 scheduleContent.append(gameCard);
@@ -77,7 +70,6 @@ var getSchedules = function(inputDate) {
                 var versusText = $("<div class='mx-3'>");
                 var awayCard = $("<div class='card-image mx-3'>");
                 var gameStatusCard = $("<div class='card is-shadowless'>");
-    
     
                 var homeTeamName = $("<p class='has-text-weight-bold mx-2'>");
                 homeTeamName.text(homeTeam);
@@ -112,8 +104,7 @@ var getSchedules = function(inputDate) {
             } 
         }
         }).catch(error => console.log('error', error));
-
-}
+};
 
 // function to render bars from city search
 var getBars = function(city){
@@ -126,22 +117,23 @@ var getBars = function(city){
     fetch(breweryApiUrl).then(function (response) {
         return response.json();
     }).then(function (data) {
-        // if no bars are found for specified city, else render bars
+        // IF no bars are found for specified city display modal
         if (data.length === 0) {
             // !!make this a modal message!!
-            alert("No bars found. Please try widening your search!");
+            // alert("No bars found. Please try widening your search!");
+            barModal.addClass("is-clipped is-active");
         } else {
+            // ELSE render bars from data
             // console.log(data[0].city);
             for (var i = 0; i < data.length; i++) {
-                console.log(data[i].brewery_type);
+                // console.log(data[i].brewery_type);
                 var breweryType = data[i].brewery_type;
 
                 // conditional to exclude non-visitable bars
                 if (breweryType === "planning" || breweryType === "nano" || breweryType === "contract" || breweryType === "large") {
                     console.log("breweries hidden");
-                    // else - populate list from remaining array data
                 } else {
-
+                    // ELSE populate list from remaining array data
                     var breweryName = data[i].name;
                     var barStreetAddress = data[i].street;
                     var barCity = data[i].city;
@@ -169,7 +161,8 @@ var getBars = function(city){
                     footerWebsiteSpan.text("View ");
                     footerWebsiteSpan.append(barWebsite);
                     footerWebsite.append(footerWebsiteSpan);
-        
+                    
+                    // use these variables for localStorage call
                     var footerFavorite = $("<p class='card-footer-item'>");
                     var footerFavoriteSpan = $("<span>");
                     footerFavorite.text("Favorite");
@@ -191,8 +184,7 @@ var getBars = function(city){
         }
         // console.log(data);
     }).catch(error => console.log("error", error));
-
-}
+};
 
 // function to get value from city search, pass to getBars()
 var formHandler = function(event) {
@@ -217,18 +209,18 @@ var gameFormHandler = function(event) {
 
     // stringify value, was having issues when passing to function, this seemed to work
     var inputDate = JSON.stringify(datePicker.val());
+    // console.log(inputDate);
 
-    console.log(inputDate);
     // send value as parameter to getSchedules
     getSchedules(inputDate);
-
-}
+};
 
 // EVENT HANDLERS SECTION //
 
 // event handler for city search input
 citySearch.on("submit", formHandler);
 searchBtn.on("click", formHandler);
+
 // event handler for datepicker
 gameSearchBtn.on("click", gameFormHandler);
 todayGameBtn.on("click", function(){
@@ -240,7 +232,13 @@ todayGameBtn.on("click", function(){
 
     // send value as parameter to getSchedules()
     getSchedules(inputDate);
+});
 
+// click event for closing a modal
+closeModalBtn.on("click", function(){
+    // console.log("close clicked");
+    gameModal.removeClass("is-clipped is-active");
+    barModal.removeClass("is-clipped is-active");
 });
 
 // getSchedules();
