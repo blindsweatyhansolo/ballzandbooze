@@ -90,15 +90,42 @@ I think 'is-family-sans-serif is what matches font automatically applied to head
 </div>
 
 <!-- MODALS -->
+<!-- no games found modal -->
 <div id="modal-game-error" class="modal">
     <div class="modal-background"></div>
-    <div class="modal-content">
-      <div class="box">
-        <p>NO GAMES FOUND</p>
-        <!-- Your content -->
-      </div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">No Scheduled Games</p>
+        <button class="delete close" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body">
+          <p>No scheduled games found. Please select another date and try again.</p>
+        <!-- Content ... -->
+      </section>
+      <footer class="modal-card-foot">
+        <!-- <button class="modal-close">OK</button> -->
+        <!-- <button class="button">Cancel</button> -->
+      </footer>
     </div>
-    <button class="modal-close is-large" aria-label="close"></button>
+</div>
+
+<!-- no bars found modal -->
+<div id="modal-bar-error" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">No Bars Found</p>
+        <button class="delete close" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body">
+          <p>No bars found. Please check spelling or try widening your search!</p>
+        <!-- Content ... -->
+      </section>
+      <footer class="modal-card-foot">
+        <!-- <button class="modal-close">OK</button> -->
+        <!-- <button class="button">Cancel</button> -->
+      </footer>
+    </div>
 </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

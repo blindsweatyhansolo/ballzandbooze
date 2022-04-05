@@ -13,6 +13,10 @@ var searchBtn = $("#search-button");
 var gameSearchBtn = $("#game-search-btn");
 var datePicker = $("#date-picker");
 var todayGameBtn = $("#today-game");
+// modal variables
+var gameModal = $("#modal-game-error");
+var barModal = $("#modal-bar-error");
+var closeModalBtn = $(".close");
 
 // function to render game schedules from inputed date
 var getSchedules = function(inputDate) {
@@ -43,7 +47,8 @@ var getSchedules = function(inputDate) {
         if (data.results === 0) {
             console.log("NO GAMES");
             // make this a modal message!!
-            alert("No Games Scheduled on " + inputDate);
+            // alert("No Games Scheduled on " + inputDate);
+            gameModal.addClass("is-clipped is-active");
         } else {
             // else render game card for each in array
             for (var i = 0; i < data.response.length; i++) {
@@ -129,7 +134,8 @@ var getBars = function(city){
         // if no bars are found for specified city, else render bars
         if (data.length === 0) {
             // !!make this a modal message!!
-            alert("No bars found. Please try widening your search!");
+            // alert("No bars found. Please try widening your search!");
+            barModal.addClass("is-clipped is-active");
         } else {
             // console.log(data[0].city);
             for (var i = 0; i < data.length; i++) {
@@ -203,7 +209,7 @@ var formHandler = function(event) {
 
     // grab value from input
     var city = cityInput.val().trim();
-    // console.log(city);
+    console.log(city);
 
     // send city as parameter to getBars
     getBars(city);
@@ -241,6 +247,13 @@ todayGameBtn.on("click", function(){
     // send value as parameter to getSchedules()
     getSchedules(inputDate);
 
+});
+
+// click event for closing a modal
+closeModalBtn.on("click", function(){
+    // console.log("close clicked");
+    gameModal.removeClass("is-clipped is-active");
+    barModal.removeClass("is-clipped is-active");
 });
 
 // getSchedules();
