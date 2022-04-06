@@ -232,14 +232,22 @@ var faveBar = function(event) {
     var barAddress = $(this).parent().siblings().children()[1].textContent;
     console.log(barAddress);
 
+    var barStorage = {
+        name: barName,
+        address: barAddress
+    };
 
-    // var faveBarsArr = localStorage.getItem("faveBarsArr");
+    var faveBarsArr = localStorage.getItem("faveBarsArr");
 
-    // if(faveBarsArr === null) {
-    //     faveBarsArr = []
-    // } else {
-    //     faveBarsArr = JSON.parse(faveBarsArr);
-    // }
+    if(faveBarsArr === null) {
+        faveBarsArr = [];
+    } else {
+        faveBarsArr = JSON.parse(faveBarsArr);
+    }
+    faveBarsArr.push(barStorage);
+    var newFaveBar = JSON.stringify(faveBarsArr);
+    localStorage.setItem("faveBars", newFaveBar);
+    console.log(faveBarsArr);
 };
 
 // function to get value from city search, pass to getBars()
