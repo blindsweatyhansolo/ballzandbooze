@@ -246,9 +246,9 @@ var faveBar = function(event) {
     var newFaveBar = JSON.stringify(faveBarsArr);
     localStorage.setItem("faveBars", newFaveBar);
     console.log(faveBarsArr);
-
-    // renderSavedBars();
 };
+
+// create new elements from favorited bars that persist on refresh
 
 var renderSavedBars = function() {
     var faveBarsArr = localStorage.getItem("faveBars");
@@ -269,6 +269,8 @@ var renderSavedBars = function() {
         footerUnFavorite.text("Remove Favorite");
         footerUnFavorite.append(footerUnFavoriteSpan);
         barCardFooter.append(footerUnFavorite);
+        footerUnFavorite.on("click", removeBar);
+
 
 
         var barName = $("<h3 class='barname has-text-weight-semibold has-text-left'>");
@@ -288,6 +290,23 @@ var renderSavedBars = function() {
     console.log(faveBarsArr);
 
     }
+};
+
+// remove favorite with button click function
+
+var removeBar = function(event) {
+
+
+    console.log("button clicked");
+
+    var removeBarName = $(this).parent().siblings().children()[0].textContent;
+    removeBarName.textContent = "";
+    console.log(removeBarName);
+
+
+    var removeBarAddress = $(this).parent().siblings().children()[1].textContent;
+    console.log(removeBarAddress);
+
 };
 
 // function to get value from city search, pass to getBars()
