@@ -1,3 +1,7 @@
+$(document).ready(function(){
+    renderSavedBars();
+});
+
 // current date using moment.js
 var currentDate = moment().format("YYYY-MM-DD");
 var scheduleContainer = $("#schedule-container");
@@ -229,17 +233,80 @@ var faveBar = function(event) {
         address: barAddress
     };
 
-    var faveBarsArr = localStorage.getItem("faveBarsArr");
+    var faveBarsArr = localStorage.getItem("faveBars");
 
     if(faveBarsArr === null) {
         faveBarsArr = [];
     } else {
         faveBarsArr = JSON.parse(faveBarsArr);
+        renderSavedBars();
+
     }
     faveBarsArr.push(barStorage);
     var newFaveBar = JSON.stringify(faveBarsArr);
     localStorage.setItem("faveBars", newFaveBar);
     console.log(faveBarsArr);
+};
+
+// create new elements from favorited bars that persist on refresh
+
+var renderSavedBars = function() {
+    var faveBarsArr = localStorage.getItem("faveBars");
+    faveBarsArr = JSON.parse(faveBarsArr);
+
+    for (let i = 0; i < faveBarsArr.length; i++) {
+        var savedBarInfoContainer = $("<div class='is-flex is-flex-direction-row'>");
+        var barCard = $("<div class='card mb-1 px-1 container'>");
+
+        var barCardContent = $("<div class='card-content'>");
+        // barCardContent.attr("id", faveBarsArr[i].name);
+        // barCardContent.text(faveBarsArr[i].name);
+        var barCardFooter = $("<footer class='card-footer'>");
+        var footerUnFavorite = $("<p class='card-footer-item is-clickable'>");
+        // footerFavorite.attr("id", "favorite");
+
+        var footerUnFavoriteSpan = $("<span>");
+        footerUnFavorite.text("Remove Favorite");
+        footerUnFavorite.append(footerUnFavoriteSpan);
+        barCardFooter.append(footerUnFavorite);
+        footerUnFavorite.on("click", removeBar);
+
+
+
+        var barName = $("<h3 class='barname has-text-weight-semibold has-text-left'>");
+        barName.text(faveBarsArr[i].name);
+
+        var barAddress = $("<address class='baraddress has-text-left'>");
+        // barAddress.attr("id", barStreetAddress);
+        barAddress.text(faveBarsArr[i].address);
+        barCardContent.append(barName);
+        barCardContent.append(barAddress);
+
+        barCard.append(barCardContent);
+        barCard.append(barCardFooter);
+        savedBarInfoContainer.append(barCard);
+        barContainer.append(savedBarInfoContainer);
+
+    console.log(faveBarsArr);
+
+    }
+};
+
+// remove favorite with button click function
+
+var removeBar = function(event) {
+
+
+    console.log("button clicked");
+
+    var removeBarName = $(this).parent().siblings().children()[0].textContent;
+    removeBarName.textContent = "";
+    console.log(removeBarName);
+
+
+    var removeBarAddress = $(this).parent().siblings().children()[1].textContent;
+    console.log(removeBarAddress);
+
 };
 
 // function to get value from city search, pass to getBars()
