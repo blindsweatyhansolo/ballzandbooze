@@ -149,18 +149,22 @@ var getBars = function(city){
         
                     var barInfoContainer = $("<div class='is-flex is-flex-direction-row'>");
         
-                    var barCard = $("<div class='card mb-1 px-1'>");
+                    //add container to make cards even width - center text or keep text left?
+                    var barCard = $("<div class='card mb-1 px-1 container'>");
                     var barCardContent = $("<div class='card-content'>");
                     var barCardFooter = $("<footer class='card-footer'>");
         
-                    var barName = $("<h3 class='has-text-weight-semibold has-text-left'>");
+                    var barName = $("<h3 class='barname has-text-weight-semibold has-text-left'>");
+                    // barName.attr("id", breweryName);
                     barName.text(breweryName);
         
-                    var barAddress = $("<address class='has-text-left'>");
-                    barAddress.append(barStreetAddress + ", ");
-                    barAddress.append(barCity);
+                    var barAddress = $("<address class='baraddress has-text-left'>");
+                    // barAddress.attr("id", barStreetAddress);
+                    barAddress.append(barStreetAddress);
+                    // barAddress.append(barCity);
         
                     var barWebsite = $("<a>");
+                    // barWebsite.attr("id", barUrl);
                     barWebsite.attr("href", barUrl);
                     barWebsite.text("website");
         
@@ -170,10 +174,34 @@ var getBars = function(city){
                     footerWebsiteSpan.append(barWebsite);
                     footerWebsite.append(footerWebsiteSpan);
         
-                    var footerFavorite = $("<p class='card-footer-item'>");
+                    var footerFavorite = $("<p class='favorite card-footer-item is-clickable'>");
+                    // footerFavorite.attr("id", "favorite");
                     var footerFavoriteSpan = $("<span>");
                     footerFavorite.text("Favorite");
                     footerFavorite.append(footerFavoriteSpan);
+
+                    footerFavorite.on("click", faveBar);
+                    
+
+                    //added this
+
+                
+
+                    // $( ".favorite" ).click(function() {
+
+                    //     localStorage.setItem("faveName", JSON.stringify(breweryName));
+                    //     localStorage.setItem("faveStreet", JSON.stringify(barStreetAddress));
+                    //     localStorage.setItem("faveCity", JSON.stringify(barCity));
+                    //     localStorage.setItem("faveUrl", JSON.stringify(barUrl));
+
+                    //     console.log(localStorage.getItem("faveName"));
+
+                    //     localStorage.getItem("faveName");
+
+                    // });
+
+
+                    //
         
                     barCardFooter.append(footerWebsite);
                     barCardFooter.append(footerFavorite);
@@ -186,6 +214,8 @@ var getBars = function(city){
                     barCard.append(barCardFooter);
                     barInfoContainer.append(barCard);
                     barContainer.append(barInfoContainer);
+
+                    
                 }
             }
         }
@@ -193,6 +223,24 @@ var getBars = function(city){
     }).catch(error => console.log("error", error));
 
 }
+
+var faveBar = function(event) {
+
+    var barName = $(this).parent().siblings().children()[0].textContent;
+    console.log(barName);
+
+    var barAddress = $(this).parent().siblings().children()[1].textContent;
+    console.log(barAddress);
+
+
+    // var faveBarsArr = localStorage.getItem("faveBarsArr");
+
+    // if(faveBarsArr === null) {
+    //     faveBarsArr = []
+    // } else {
+    //     faveBarsArr = JSON.parse(faveBarsArr);
+    // }
+};
 
 // function to get value from city search, pass to getBars()
 var formHandler = function(event) {
