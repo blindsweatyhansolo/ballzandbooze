@@ -178,27 +178,6 @@ var getBars = function(city){
                     footerFavorite.append(footerFavoriteSpan);
 
                     footerFavorite.on("click", faveBar);
-                    
-
-                    //added this
-
-                
-
-                    // $( ".favorite" ).click(function() {
-
-                    //     localStorage.setItem("faveName", JSON.stringify(breweryName));
-                    //     localStorage.setItem("faveStreet", JSON.stringify(barStreetAddress));
-                    //     localStorage.setItem("faveCity", JSON.stringify(barCity));
-                    //     localStorage.setItem("faveUrl", JSON.stringify(barUrl));
-
-                    //     console.log(localStorage.getItem("faveName"));
-
-                    //     localStorage.getItem("faveName");
-
-                    // });
-
-
-                    //
         
                     barCardFooter.append(footerWebsite);
                     barCardFooter.append(footerFavorite);
@@ -221,7 +200,6 @@ var getBars = function(city){
 };
 
 var faveBar = function(event) {
-
     var barName = $(this).parent().siblings().children()[0].textContent;
     console.log(barName);
 
@@ -240,72 +218,118 @@ var faveBar = function(event) {
     } else {
         faveBarsArr = JSON.parse(faveBarsArr);
         renderSavedBars();
-
     }
-    faveBarsArr.push(barStorage);
-    var newFaveBar = JSON.stringify(faveBarsArr);
-    localStorage.setItem("faveBars", newFaveBar);
-    console.log(faveBarsArr);
+
+    // faveBarsArr.push(barStorage);
+
+    localStorage.setItem("faveBars", JSON.stringify(barStorage));
+    renderSavedBars();
+    // var newFaveBar = JSON.stringify(faveBarsArr);
+    // console.log(faveBarsArr);
 };
 
 // create new elements from favorited bars that persist on refresh
-
 var renderSavedBars = function() {
     var faveBarsArr = localStorage.getItem("faveBars");
     faveBarsArr = JSON.parse(faveBarsArr);
+    // console.log(faveBarsArr);
 
-    for (let i = 0; i < faveBarsArr.length; i++) {
-        var savedBarInfoContainer = $("<div class='is-flex is-flex-direction-row'>");
-        var barCard = $("<div class='card mb-1 px-1 container'>");
+    var savedBarInfoContainer = $("<div class='is-flex is-flex-direction-row fave-bar-card'>");
+    var barCard = $("<div class='card mb-1 px-1 container fave-card-bg'>");
 
-        var barCardContent = $("<div class='card-content'>");
-        // barCardContent.attr("id", faveBarsArr[i].name);
-        // barCardContent.text(faveBarsArr[i].name);
-        var barCardFooter = $("<footer class='card-footer'>");
-        var footerUnFavorite = $("<p class='card-footer-item is-clickable'>");
-        // footerFavorite.attr("id", "favorite");
-
-        var footerUnFavoriteSpan = $("<span>");
-        footerUnFavorite.text("Remove Favorite");
-        footerUnFavorite.append(footerUnFavoriteSpan);
-        barCardFooter.append(footerUnFavorite);
-        footerUnFavorite.on("click", removeBar);
+    var barCardContent = $("<div class='card-content'>");
+    var barCardFooter = $("<footer class='card-footer'>");
+    var footerUnFavorite = $("<p class='card-footer-item is-clickable'>");
 
 
+    var footerUnFavoriteSpan = $("<span>");
+    footerUnFavorite.text("Remove Favorite");
+    footerUnFavorite.append(footerUnFavoriteSpan);
+    barCardFooter.append(footerUnFavorite);
+    footerUnFavorite.on("click", removeBar);
 
-        var barName = $("<h3 class='barname has-text-weight-semibold has-text-left'>");
-        barName.text(faveBarsArr[i].name);
+    var barName = $("<h3 class='barname has-text-weight-semibold has-text-left' id='" + faveBarsArr.name + "'>");
+    barName.text(faveBarsArr.name);
 
-        var barAddress = $("<address class='baraddress has-text-left'>");
-        // barAddress.attr("id", barStreetAddress);
-        barAddress.text(faveBarsArr[i].address);
-        barCardContent.append(barName);
-        barCardContent.append(barAddress);
+    var barAddress = $("<address class='baraddress has-text-left'>");
+    // barAddress.attr("id", barStreetAddress);
+    barAddress.text(faveBarsArr.address);
+    barCardContent.append(barName);
+    barCardContent.append(barAddress);
 
-        barCard.append(barCardContent);
-        barCard.append(barCardFooter);
-        savedBarInfoContainer.append(barCard);
-        barContainer.append(savedBarInfoContainer);
-
-    console.log(faveBarsArr);
-
-    }
+    barCard.append(barCardContent);
+    barCard.append(barCardFooter);
+    savedBarInfoContainer.append(barCard);
+    barContainer.append(savedBarInfoContainer);
 };
 
 // remove favorite with button click function
 
 var removeBar = function(event) {
-
+    // grab locally stored array, parse
+    var getItem = JSON.parse(localStorage.getItem("faveBars"));
 
     console.log("button clicked");
 
-    var removeBarName = $(this).parent().siblings().children()[0].textContent;
-    removeBarName.textContent = "";
-    console.log(removeBarName);
+
+    console.log(getItem);
+
+    // grab id from selected card, parse
+    // var faveCardIndex = $(this).parent().siblings().children().attr("id");
+    // faveCardIndex = JSON.parse(faveCardIndex);
+    // console.log(typeof faveCardId);
+
+    // var matchedObject = $(this).parent().siblings().children().attr("id");
+    // console.log(matchedObject);
+
+    // // var matchedObject = getItem[i];
+    
+    // for (var i=0; getItem.length; i++){
+    //     var barName = getItem[i].name;
+    //     console.log(barName);
+    //     // check against array for matching name
+    //     // if (matchedObject === barName){
+    //     //     console.log("match");
+    //     //     var indexOf = getItem.indexOf(barName);
+    //     //     console.log(indexOf);
+    //     // };
+
+    // }
 
 
-    var removeBarAddress = $(this).parent().siblings().children()[1].textContent;
-    console.log(removeBarAddress);
+
+    //     // if (faveCardId === getItem[i]) {
+    //     //     console.log("match found");
+    //     // }
+    // } 
+
+    // // grab the bar name of clicked element
+    // var removeBarName = $(this).parent().siblings().children()[0].textContent;
+    // console.log(removeBarName);
+
+    // for (var i=0; getItem.length; i++){
+    //     if (removeBarName === getItem[i].name) {
+    //         console.log("match found");
+    //         console.log(removeBarName);
+    //         console.log(getItem[i].name);
+
+
+    //         var matchedObj = getItem[i];
+    //         console.log(matchedObj);
+
+    //         var indexOfObject = getItem.indexOf(matchedObj);
+    //         console.log(indexOfObject);
+
+    //         getItem.faveBars = getItem.faveBars.splice((indexOfObject), 1);
+
+    //         console.log(getItem);
+            
+    //     }
+    // }
+
+
+    // var removeBarAddress = $(this).parent().siblings().children()[1].textContent;
+    // console.log(removeBarAddress);
 
 };
 
