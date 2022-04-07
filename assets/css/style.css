@@ -2,3 +2,16 @@
 max-width: 100%;
 max-height: fit-content;
 }
+
+.fave-card-bg {
+    background-color: yellow;
+}
+
+.bar-card-footer {
+    transition: all 0.5s ease;
+    background-color: lightgray;
+}
+
+.is-clickable:hover {
+    background-color: gray;
+}
