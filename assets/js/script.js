@@ -6,7 +6,11 @@ $(document).ready(function(){
 var currentDate = moment().format("YYYY-MM-DD");
 var scheduleContainer = $("#schedule-container");
 var scheduleContent = $("#schedule-content");
+
 var barContainer = $("#bar-container");
+var favedBarContainer = $("#favorite-bar-container");
+var barSearchContainer = $("#search-bar-container");
+
 var gameDate = $("#game-date");
 var citySearch = $("#city-search");
 var cityInput = $("#city-input");
@@ -46,7 +50,7 @@ var getSchedules = function(inputDate) {
         if (data.results === 0) {
             // console.log("NO GAMES");
             // make this a modal message!!
-            // alert("No Games Scheduled on " + inputDate);
+            // alert("No Games Scheduled on " + inputDate); 
             gameModal.addClass("is-clipped is-active");
         } else {
             // else render game card for each in array
@@ -115,7 +119,7 @@ var getBars = function(city){
     // brewery api start
     var cityName = city;
 
-    // format api url using city name and display max 10 items
+    // format api url using city name and display max 10 items to avoid page flooding
     var breweryApiUrl = "https://api.openbrewerydb.org/breweries?by_city=" + cityName + "&per_page=10";
     
     fetch(breweryApiUrl).then(function (response) {
@@ -127,8 +131,7 @@ var getBars = function(city){
             // alert("No bars found. Please try widening your search!");
             barModal.addClass("is-clipped is-active");
         } else {
-            // ELSE render bars from data
-            // console.log(data[0].city);
+            // ELSE loop through array to render bars from data endpoints
             for (var i = 0; i < data.length; i++) {
                 // console.log(data[i].brewery_type);
                 var breweryType = data[i].brewery_type;
@@ -143,25 +146,22 @@ var getBars = function(city){
                     var barCity = data[i].city;
                     var barUrl = data[i].website_url;
         
+                    //add container to make cards even width - center text or keep text left?
                     var barInfoContainer = $("<div class='is-flex is-flex-direction-row'>");
         
-                    //add container to make cards even width - center text or keep text left?
                     var barCard = $("<div class='card mb-1 px-1 container'>");
                     var barCardContent = $("<div class='card-content'>");
-                    var barCardFooter = $("<footer class='card-footer'>");
+                    var barCardFooter = $("<footer class='card-footer bar-card-footer'>");
         
                     var barName = $("<h3 class='barname has-text-weight-semibold has-text-left'>");
-                    // barName.attr("id", breweryName);
                     barName.text(breweryName);
         
                     var barAddress = $("<address class='baraddress has-text-left'>");
-                    // barAddress.attr("id", barStreetAddress);
                     barAddress.append(barStreetAddress);
-                    // barAddress.append(barCity);
         
                     var barWebsite = $("<a>");
-                    // barWebsite.attr("id", barUrl);
                     barWebsite.attr("href", barUrl);
+                    barWebsite.attr("target", "blank");
                     barWebsite.text("website");
         
                     var footerWebsite = $("<p class='card-footer-item'>");
@@ -171,11 +171,11 @@ var getBars = function(city){
                     footerWebsite.append(footerWebsiteSpan);
         
                     var footerFavorite = $("<p class='favorite card-footer-item is-clickable'>");
-                    // footerFavorite.attr("id", "favorite");
 
                     var footerFavoriteSpan = $("<span>");
+                    footerFavoriteSpan.text("✓  ")
                     footerFavorite.text("Favorite");
-                    footerFavorite.append(footerFavoriteSpan);
+                    footerFavorite.prepend(footerFavoriteSpan);
 
                     footerFavorite.on("click", faveBar);
         
@@ -189,7 +189,7 @@ var getBars = function(city){
                     barCard.append(barCardContent);
                     barCard.append(barCardFooter);
                     barInfoContainer.append(barCard);
-                    barContainer.append(barInfoContainer);
+                    barSearchContainer.append(barInfoContainer);
 
                     
                 }
@@ -199,13 +199,17 @@ var getBars = function(city){
     }).catch(error => console.log("error", error));
 };
 
+// function to save bar name and address to localstorage
 var faveBar = function(event) {
+    // get bar name text value from clicked card
     var barName = $(this).parent().siblings().children()[0].textContent;
     console.log(barName);
 
+    // get bar address text value from clicked card
     var barAddress = $(this).parent().siblings().children()[1].textContent;
     console.log(barAddress);
 
+    // create object to store variables
     var barStorage = {
         name: barName,
         address: barAddress
@@ -213,124 +217,63 @@ var faveBar = function(event) {
 
     var faveBarsArr = localStorage.getItem("faveBars");
 
+    // if array doesn't exist create one, otherwise parse existing array
     if(faveBarsArr === null) {
         faveBarsArr = [];
     } else {
         faveBarsArr = JSON.parse(faveBarsArr);
-        renderSavedBars();
     }
 
-    // faveBarsArr.push(barStorage);
-
+    // save new object value under faveBars key in localstorage
     localStorage.setItem("faveBars", JSON.stringify(barStorage));
+
+    // immediate call to function to render new card using saved data
     renderSavedBars();
-    // var newFaveBar = JSON.stringify(faveBarsArr);
-    // console.log(faveBarsArr);
 };
 
 // create new elements from favorited bars that persist on refresh
 var renderSavedBars = function() {
+    // clear existing content
+    favedBarContainer.html("");
+
+    // get data from localstorage, parse
     var faveBarsArr = localStorage.getItem("faveBars");
     faveBarsArr = JSON.parse(faveBarsArr);
     // console.log(faveBarsArr);
 
+    // create div for card with flex properties
     var savedBarInfoContainer = $("<div class='is-flex is-flex-direction-row fave-bar-card'>");
-    var barCard = $("<div class='card mb-1 px-1 container fave-card-bg'>");
 
+    // create card content
+    var barCard = $("<div class='card mb-1 px-1 container fave-card-bg'>");
     var barCardContent = $("<div class='card-content'>");
     var barCardFooter = $("<footer class='card-footer'>");
-    var footerUnFavorite = $("<p class='card-footer-item is-clickable'>");
 
-
-    var footerUnFavoriteSpan = $("<span>");
-    footerUnFavorite.text("Remove Favorite");
-    footerUnFavorite.append(footerUnFavoriteSpan);
-    barCardFooter.append(footerUnFavorite);
-    footerUnFavorite.on("click", removeBar);
-
-    var barName = $("<h3 class='barname has-text-weight-semibold has-text-left' id='" + faveBarsArr.name + "'>");
+    var barName = $("<h3 class='barname has-text-weight-semibold has-text-left'>");
     barName.text(faveBarsArr.name);
 
     var barAddress = $("<address class='baraddress has-text-left'>");
-    // barAddress.attr("id", barStreetAddress);
     barAddress.text(faveBarsArr.address);
+
+    var footerRemoveFave = $("<p class='card-footer-item is-clickable bar-card-footer'>");
+    var footerSpan = $("<span>");
+    footerRemoveFave.text("✘ Remove Favorite");
+    footerRemoveFave.append(footerSpan);
+    barCardFooter.append(footerRemoveFave);
+
+    // click event on footer to clear localstorage and clear card content from container
+    footerRemoveFave.on("click", function(){
+        localStorage.clear();
+        favedBarContainer.html("");
+    });
+
     barCardContent.append(barName);
     barCardContent.append(barAddress);
 
     barCard.append(barCardContent);
     barCard.append(barCardFooter);
     savedBarInfoContainer.append(barCard);
-    barContainer.append(savedBarInfoContainer);
-};
-
-// remove favorite with button click function
-
-var removeBar = function(event) {
-    // grab locally stored array, parse
-    var getItem = JSON.parse(localStorage.getItem("faveBars"));
-
-    console.log("button clicked");
-
-
-    console.log(getItem);
-
-    // grab id from selected card, parse
-    // var faveCardIndex = $(this).parent().siblings().children().attr("id");
-    // faveCardIndex = JSON.parse(faveCardIndex);
-    // console.log(typeof faveCardId);
-
-    // var matchedObject = $(this).parent().siblings().children().attr("id");
-    // console.log(matchedObject);
-
-    // // var matchedObject = getItem[i];
-    
-    // for (var i=0; getItem.length; i++){
-    //     var barName = getItem[i].name;
-    //     console.log(barName);
-    //     // check against array for matching name
-    //     // if (matchedObject === barName){
-    //     //     console.log("match");
-    //     //     var indexOf = getItem.indexOf(barName);
-    //     //     console.log(indexOf);
-    //     // };
-
-    // }
-
-
-
-    //     // if (faveCardId === getItem[i]) {
-    //     //     console.log("match found");
-    //     // }
-    // } 
-
-    // // grab the bar name of clicked element
-    // var removeBarName = $(this).parent().siblings().children()[0].textContent;
-    // console.log(removeBarName);
-
-    // for (var i=0; getItem.length; i++){
-    //     if (removeBarName === getItem[i].name) {
-    //         console.log("match found");
-    //         console.log(removeBarName);
-    //         console.log(getItem[i].name);
-
-
-    //         var matchedObj = getItem[i];
-    //         console.log(matchedObj);
-
-    //         var indexOfObject = getItem.indexOf(matchedObj);
-    //         console.log(indexOfObject);
-
-    //         getItem.faveBars = getItem.faveBars.splice((indexOfObject), 1);
-
-    //         console.log(getItem);
-            
-    //     }
-    // }
-
-
-    // var removeBarAddress = $(this).parent().siblings().children()[1].textContent;
-    // console.log(removeBarAddress);
-
+    favedBarContainer.append(savedBarInfoContainer);
 };
 
 // function to get value from city search, pass to getBars()
@@ -338,7 +281,7 @@ var formHandler = function(event) {
     event.preventDefault();
 
     // clear old unsaved content from container
-    barContainer.html("");
+    barSearchContainer.html("");
 
     // grab value from input
     var city = cityInput.val().trim();
@@ -387,6 +330,3 @@ closeModalBtn.on("click", function(){
     gameModal.removeClass("is-clipped is-active");
     barModal.removeClass("is-clipped is-active");
 });
-
-// getSchedules();
-// getBars();
