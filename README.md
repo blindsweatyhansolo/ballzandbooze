@@ -13,9 +13,11 @@
 
 >*User Story*
 >
->As a craft beer and sports fan, I want to be able to look up my favorite team’s game schedule and local craft bars near me so that >I can watch the game while enjoying a drink.
+>As a craft beer and sports fan, I want to be able to look up my favorite team’s game schedule and local craft bars near me <br>
+>so that I can watch the game while enjoying a drink.
 >
->WHEN the user visits the application, they are greeted with a simple easy-to-use interface
+>WHEN the user visits the application <br>
+>they are greeted with a simple easy-to-use interface
 >
 >WHEN selecting a date <br>
 >THEN the user is presented with all games scheduled for that date
@@ -24,7 +26,7 @@
 >THEN the user is presented with nearby craft breweries/bars
 >
 >WHEN the user returns to the page <br>
->THEN they are presented with any bars saved to favorites
+>THEN they are presented with their favorited bar's info
 
 ---
 
