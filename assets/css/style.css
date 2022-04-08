@@ -4,14 +4,37 @@ max-height: fit-content;
 }
 
 .fave-card-bg {
-    background-color: yellow;
+    /* background-color: yellow; */
+    background-color: #FBAB7E;
+    background-image: linear-gradient(158deg, #FBAB7E 0%, #F7CE68 100%);
 }
 
 .bar-card-footer {
-    transition: all 0.5s ease;
+    transition: all 5s ease-in-out;
     background-color: lightgray;
 }
 
 .is-clickable:hover {
-    background-color: gray;
+    background-image: linear-gradient( 135deg, #F05F57 10%, #360940 100%);
+    /* background-color: gray; */
+}
+
+.search-button {
+    background-image: linear-gradient(to right, #DC2424 0%, #4A569D  51%, #DC2424  100%);
+    margin: 10px;
+    padding: 10px 35px;
+    text-align: center;
+    /* text-transform: uppercase; */
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;            
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: block;
+}
+
+.search-button:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
 }

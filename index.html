@@ -33,16 +33,16 @@ I think 'is-family-sans-serif is what matches font automatically applied to head
     </div>
 </header>
 
-<div class="columns has-text-centered mx-0 my-0 is-mobile">
+<div class="columns has-text-centered mx-0 my-0">
     <div class="column is-three-fifths has-text-black">
         <label for="game-search">Find a Game:</label>
         <div class="column">
             <input type="date" id="date-picker"/>
         </div>
-        <div class="column">
-            <button id="game-search-btn">Find scheduled games!</button>
+        <div class="column is-flex align-content is-justify-content-center">
+            <button id="game-search-btn" class="search-button">Find scheduled games!</button>
             <!-- this button will send the current date to the schedule rendering function -->
-            <button id="today-game">See Today's Line-up!</button>
+            <button id="today-game" class="search-button">See Today's Line-up!</button>
         </div>
     </div>
     <div class="column auto has-text-black">
@@ -51,8 +51,8 @@ I think 'is-family-sans-serif is what matches font automatically applied to head
                 <div class="column">
                     <input type="text" id="city-input" placeholder="e.g. Atlanta" />
                 </div>
-                <div class="column">
-                    <button id="search-button">Search for Brew Near You!</button>
+                <div class="column is-flex align-content is-justify-content-center">
+                    <button id="search-button" class="search-button">Search for Brew Near You!</button>
                 </div>
         </form>
     </div>
